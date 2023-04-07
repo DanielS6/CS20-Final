@@ -1,0 +1,19 @@
+html {
+    /* Avoid different widths on longer pages */
+    overflow-y: scroll;
+}
+body {
+    /* Allow scrolling down a bit, increase default font size */
+    padding-bottom: 150px;
+    font-size: 16pt;
+}
+.body-content-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+h1 {
+    /* Center headings */
+    text-align: center;
+}

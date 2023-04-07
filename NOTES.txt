@@ -1,0 +1,7 @@
+Things we want on every page:
+- name of our web app
+
+- login
+
+- profile
+- previous searches
