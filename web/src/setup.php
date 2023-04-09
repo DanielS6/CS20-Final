@@ -52,7 +52,8 @@ if ( version_compare( PHP_VERSION, '8.0', '<' ) ) {
  */
 $includeFiles = [
     'HTML/HTMLBuilder.php', 'HTML/HTMLElement.php', 'HTML/HTMLPage.php',
-    'Pages/SitePage.php', 'Pages/DemoPage.php',
+    'Pages/SitePage.php',
+    'Pages/DemoPage.php', 'Pages/LoginPage.php', 'Pages/SignUpPage.php',
 ];
 foreach ( $includeFiles as $file ) {
     require_once $file;
@@ -63,19 +64,3 @@ unset( $includeFiles );
 
 // Session
 session_start();
-
-/* Function for entry points to retrieve the page to show */
-// function gfGetDisplayPage( string $entrypoint ): \TwoOwlsCafe\Pages\SitePage {
-//     $posted = ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) === 'POST';
-//     if ( $entrypoint === 'index.php' && $posted ) {
-//         return new \TwoOwlsCafe\Pages\ConfirmationPage();
-//     } else if ( $entrypoint === 'index.php' ) {
-//         return new \TwoOwlsCafe\Pages\OrderPage();
-//     } else if ( $entrypoint === 'orders.php' && $posted ) {
-//         return new \TwoOwlsCafe\Pages\ResetPage();
-//     } else if ( $entrypoint === 'orders.php' ) {
-//         return new \TwoOwlsCafe\Pages\AdminPage();
-//     } else {
-//         return new \TwoOwlsCafe\Pages\MissingPage( $entrypoint );
-//     }
-// }

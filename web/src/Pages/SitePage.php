@@ -28,7 +28,10 @@ abstract class SitePage {
         );
         // Always add global-styles.css
         $this->addStyleSheet( 'global-styles.css' );
-        $this->page->addBodyElement( $this->getHeading() );
+        // $this->page->addBodyElement( $this->getHeading() );
+
+        $this->page->addBodyElement( $this->getSideNav() );
+
         // Body from getBodyElements() is added in getOutput() so that subclass
         // constructor code after calling this parent constructor can take
         // effect
@@ -78,5 +81,28 @@ abstract class SitePage {
             'COMMON HEADING'
         );
     }
+
+    private function getSideNav(): HTMLElement {
+        return HTMLBuilder::element(
+            'div',
+            $this->buildNavProfile(),
+            [ 'class' => 'side-nav' ]
+        );
+    }
+
+    private function buildSideNav(): HTMLElement {
+        return HTMLBuilder::element( 'h2', 'TESTING' );
+    }
+    
+    private function buildNavProfile(): HTMLElement {
+        return HTMLBuilder::element(
+            'div',
+            [ HTMLBuilder::element('p', 'ex@gmail.com'),
+              HTMLBuilder::element('a', 'log out')
+            ],
+            [ 'class' => 'profile']
+        );
+    }
+
     abstract protected function getBodyElements(): array;
 }

@@ -5,3 +5,4 @@ Things we want on every page:
 
 - profile
 - previous searches
+

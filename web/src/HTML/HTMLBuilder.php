@@ -51,9 +51,13 @@ class HTMLBuilder {
 		$contents = [],
 		array $attributes = []
 	): HTMLElement {
+		if ( !is_array( $contents ) ) {
+			// using (array) casts doesn't work
+			$contents = [ $contents ];
+		}
 		return self::rawElement(
 			$tag,
-            array_map( [ __CLASS__, 'maybeEscape' ], (array)$contents ),
+            array_map( [ __CLASS__, 'maybeEscape' ], $contents ),
 			$attributes
 		);
 	}
@@ -72,7 +76,10 @@ class HTMLBuilder {
 		$contents = [],
 		array $attributes = []
 	): HTMLElement {
-		$contents = (array)$contents;
+		if ( !is_array( $contents ) ) {
+			// using (array) casts doesn't work
+			$contents = [ $contents ];
+		}
 		$res = "<$tag";
 		foreach ( $attributes as $name => $rawValue ) {
 			if ( $rawValue === true ) {
@@ -134,7 +141,7 @@ class HTMLBuilder {
 	 * Creates a <tr> for the given cells, which can each be either an
 	 * HTMLElement for the contents, or a string, or an HTMLElement that is
 	 * already a <td> if attributes were desired.
-	 * 
+	 *
 	 * @param (string|HTMLElement)[] $cells
 	 * @param array $attribs
 	 * @return HTMLElement

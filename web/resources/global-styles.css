@@ -8,7 +8,7 @@ body {
     font-size: 16pt;
 }
 .body-content-wrapper {
-    margin-left: auto;
+    margin-left: 250px;
     margin-right: auto;
     width: 80%;
 }
@@ -16,4 +16,19 @@ body {
 h1 {
     /* Center headings */
     text-align: center;
+}
+
+.side-nav {
+    /* background-color:#31525B; */
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    padding: 15px;
+
+    background-color: #8c92ac;
+    box-shadow: 10px 0 15px -7px rgb(172, 172, 172);
+        
 }
