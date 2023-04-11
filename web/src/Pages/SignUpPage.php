@@ -7,16 +7,80 @@
 namespace EasyReader\Pages;
 
 use EasyReader\HTML\{HTMLBuilder, HTMLElement, HTMLPage};
+use EasyReader\Database;
 
 class SignUpPage extends SitePage {
     public function __construct() {
         parent::__construct( 'SignUp' );
+        $this->addStyleSheet( 'signup-styles.css' );
     }
 
     protected function getBodyElements(): array {
         return [
             HTMLBuilder::element( 'h1', 'SIGN UP' ),
-            // TODO <form> wrapper
+            ...$this->getMainDisplay(),
+        ];
+    }
+
+    private function getMainDisplay(): array {
+        $isPost = ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) === 'POST';
+        if ( !$isPost ) {
+            return [ $this->getForm() ];
+        }
+        $submitError = $this->trySubmit();
+        if ( $submitError !== '' ) {
+            return [
+                HTMLBuilder::element(
+                    'p',
+                    $submitError,
+                    [ 'class' => 'er-error ' ]
+                ),
+                $this->getForm(),
+            ];
+        }
+        return [
+            HTMLBuilder::element(
+                'p',
+                'Account successfully created!'
+            ),
+        ];
+    }
+
+    private function trySubmit(): string {
+        $email = $_POST['er-email'];
+        $pass = $_POST['er-password'];
+        $passConfirm = $_POST['er-password-confirm'];
+        if ( $email === '' ) {
+            return 'Missing email';
+        } else if ( $pass === '' || $passConfirm === '' ) {
+            return 'Missing password';
+        } else if ( $pass !== $passConfirm ) {
+            return 'Passwords do not match';
+        }
+        $db = new Database;
+        if ( $db->accountExists( $email ) ) {
+            return 'Email already taken';
+        }
+        $hash = md5( $pass );
+        $id = $db->createAccount( $email, $hash );
+        AuthManager::loginSession( $id );
+        return '';
+    }
+
+    private function getForm(): HTMLElement {
+        return HTMLBuilder::element(
+            'form',
+            $this->getFormFields(),
+            [
+                'id' => 'oc-create-account',
+                'action' => './signup.php',
+                'method' => 'POST',
+            ]
+        );
+    }
+
+    private function getFormFields(): array {
+        return [
             HTMLBuilder::element(
                 'label',
                 'Email:',
@@ -25,7 +89,7 @@ class SignUpPage extends SitePage {
             HTMLBuilder::element(
                 'input',
                 [],
-                [ 'type' => 'text', 'id' => 'er-email', 'name' => 'er-email' ]
+                [ 'type' => 'email', 'id' => 'er-email', 'name' => 'er-email' ]
             ),
             HTMLBuilder::element( 'br' ),
             HTMLBuilder::element(
@@ -52,6 +116,11 @@ class SignUpPage extends SitePage {
                 [ 'type' => 'password',
                     'id' => 'er-password-confirm',
                     'name' => 'er-password-confirm' ]
+            ),
+            HTMLBuilder::element(
+                'button',
+                'Create account',
+                [ 'type' => 'submit', 'id' => 'er-create-account-submit' ]
             ),
         ];
     }

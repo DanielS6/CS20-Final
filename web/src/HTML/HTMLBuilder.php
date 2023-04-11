@@ -161,4 +161,39 @@ class HTMLBuilder {
 		};
 		return self::element( 'tr', array_map( $makeCell, $cells ), $attribs );
 	}
+
+	/**
+	 * Shortcut to create an <img> with the given source, should be the name
+	 * of a file within ./resources/images/
+	 *
+	 * @param string $imgName
+	 * @param array $attribs
+	 * @return HTMLElement
+	 */
+	public static function image(
+		string $imgName,
+		array $attribs = []
+	): HTMLElement {
+		$attribs['src'] = "./resources/images/$imgName";
+		return self::element( 'img', [], $attribs );
+	}
+
+	/**
+	 * Shortcut to create a <a> with the given target
+	 *
+	 * @param string $target
+     * @param string|HTMLElement|(string|HTMLElement)[] $contents any strings
+	 *   are escaped, if there is only one item it doesn't need to be in an
+	 *   array
+	 * @param array $attributes
+	 * @return HTMLElement
+	 */
+	public static function link(
+		string $target,
+		$contents,
+		array $attribs = []
+	): HTMLElement {
+		$attribs['href'] = $target;
+		return self::element('a', $contents, $attribs);
+	}
 }

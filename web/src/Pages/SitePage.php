@@ -7,6 +7,7 @@
 namespace EasyReader\Pages;
 
 use EasyReader\HTML\{HTMLBuilder, HTMLElement, HTMLPage};
+use EasyReader\AuthManager;
 
 abstract class SitePage {
     private HTMLPage $page;
@@ -28,9 +29,11 @@ abstract class SitePage {
         );
         // Always add global-styles.css
         $this->addStyleSheet( 'global-styles.css' );
-        // $this->page->addBodyElement( $this->getHeading() );
 
-        $this->page->addBodyElement( $this->getSideNav() );
+        $sideNav = $this->getSideNav();
+        foreach ( $sideNav as $thing ) {
+            $this->page->addBodyElement( $thing );
+        }
 
         // Body from getBodyElements() is added in getOutput() so that subclass
         // constructor code after calling this parent constructor can take
@@ -75,32 +78,53 @@ abstract class SitePage {
         return $this->page->getPageOutput();
     }
 
-    private function getHeading(): HTMLElement {
-        return HTMLBuilder::element(
-            'span',
-            'COMMON HEADING'
-        );
-    }
-
-    private function getSideNav(): HTMLElement {
-        return HTMLBuilder::element(
-            'div',
-            $this->buildNavProfile(),
-            [ 'class' => 'side-nav' ]
-        );
-    }
-
-    private function buildSideNav(): HTMLElement {
-        return HTMLBuilder::element( 'h2', 'TESTING' );
+   private function getSideNav(): array {
+        return [
+            HTMLBuilder::element(
+                'div',
+                $this->buildNavProfile(),
+                [ 'class' => 'side-nav' ]
+            ),
+            HTMLBuilder::element('div', $this->buildPrevSearches(), []),
+            HTMLBuilder::element('div', $this->buildSideNavControls(), [])];
+            
     }
     
+    private function buildPrevSearches(): HTMLElement {
+        return HTMLBuilder::element( 'label', '' );
+    }
+
+    private function buildSideNavControls(): HTMLElement {  
+        return HTMLBuilder::element( 'button', [], ['value' => 'Clear Search', 'class' => 'er-navButton' ]);
+    }
+
     private function buildNavProfile(): HTMLElement {
+        if ( AuthManager::isLoggedIn() ) {
+            $loginOutLink = HTMLBuilder::link(
+                './logout.php',
+                'Log out',
+                [ 'class' => 'er-navButton' ]
+            );
+        } else {
+            $loginOutLink = HTMLBuilder::link(
+                './login.php',
+                'Log in',
+                [ 'class' => 'er-navButton' ]
+            );
+        }
         return HTMLBuilder::element(
             'div',
-            [ HTMLBuilder::element('p', 'ex@gmail.com'),
-              HTMLBuilder::element('a', 'log out')
+            [
+                HTMLBuilder::link(
+                    './index.php',
+                    HTMLBuilder::image('logo.svg', [ 'class' => 'er-logo'])
+                ),
+                HTMLBuilder::element('p', ['ex@gmail.com',
+                    HTMLBuilder::image('profile.png', [ 'id' => 'er-imgProfile'])
+                ], ['id' => 'er-profLine']),
+              $loginOutLink
             ],
-            [ 'class' => 'profile']
+            [ 'id' => 'er-profile']
         );
     }
 

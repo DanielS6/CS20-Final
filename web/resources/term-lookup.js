@@ -47,28 +47,33 @@ document.addEventListener( 'DOMContentLoaded', function () {
             )
     };
 
+    let currentTerm = '';
+    const maybeDoLookup = (term) => {
+        if (term !== currentTerm) {
+            currentTerm = term;
+            addTermToHistory(term);
+            doLookup(term);
+        }
+    };
+
     const addTermToHistory = (term) => {
         const wrapper = document.createElement('div');
         const link = document.createElement('a');
         link.innerText = term;
         link.addEventListener(
             'click',
-            () => {
-                // gets added to the bottom again
-                addTermToHistory(term);
-                doLookup(term)
-            }
+            () => maybeDoLookup(term)
         );
         wrapper.append(link);
         priorTermsBar.prepend(wrapper);
     };
+
     searchBtn.addEventListener(
         'click',
         () => {
             const searchTerm = getCurrentSelection();
             if (searchTerm !== false) {
-                addTermToHistory(searchTerm);
-                doLookup(searchTerm);
+                maybeDoLookup(searchTerm);
             }
         }
     );

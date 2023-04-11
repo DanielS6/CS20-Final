@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Authentication handling
+ */
+
+namespace EasyReader;
+
+use LogicException;
+
+class AuthManager {
+
+    private const SESSION_KEY = 'easy_reader_user_id';
+
+    public static function loginSession( string $user_id ): void {
+        $_SESSION[self::SESSION_KEY] = $user_id;
+    }
+
+    public static function isLoggedIn(): bool {
+        return isset( $_SESSION[self::SESSION_KEY] );
+    }
+
+    public static function getLoggedInUserId(): int {
+        if ( !self::isLoggedIn() ) {
+            throw new LogicException(
+                __METHOD__ . ' can only be called when the viewer is logged in!'
+            );
+        }
+        return (int)$_SESSION[self::SESSION_KEY];
+    }
+
+    public static function logOut(): void {
+        session_destroy();
+    }
+}
