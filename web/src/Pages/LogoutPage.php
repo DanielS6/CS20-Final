@@ -14,10 +14,13 @@ class LogoutPage extends SitePage {
         parent::__construct( 'Logout' );
     }
 
-    protected function getBodyElements(): array {
+    protected function onBeforePageDisplay(): void {
         AuthManager::logOut();
+    }
+
+    protected function getBodyElements(): array {
         return [
-            HTMLBuilder::element( 'p', 'Log out successful ' ),
+            HTMLBuilder::element( 'p', 'Log out successful' ),
         ];
     }
 

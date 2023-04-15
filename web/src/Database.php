@@ -46,6 +46,7 @@ class Database {
 
     public function clearTables() {
         $this->db->query( 'DROP TABLE users' );
+        $this->db->query( 'DROP TABLE text' );
         // On the next page view ensureDatabase() will recreate the tables
     }
 
@@ -86,6 +87,16 @@ class Database {
         }
         return (object)($rows[0]);
     }
+    public function getAccountEmail( int $userId ): string {
+        $query = $this->db->prepare(
+            'SELECT user_email FROM users WHERE user_id = ?'
+        );
+        $query->bind_param( 'd', ...[ $userId ] );
+        $query->execute();
+        $result = $query->get_result();
+        $rows = $result->fetch_all( MYSQLI_ASSOC );
+        return (string)($rows[0]['user_email']);
+    }
 
     public function createAccount( string $email, string $passHash ): string {
         $query = $this->db->prepare(
@@ -114,5 +125,29 @@ class Database {
             return null;
         }
         return $rows[0]['text_text'];
+    }
+
+    public function setCurrentUserText( int $userId, string $text ): void {
+        $currentText = $this->getCurrentUserText( $userId );
+        if ( $currentText === null ) {
+            // No current text
+            $query = $this->db->prepare(
+                'INSERT INTO text (text_user, text_text) VALUES (?, ?)'
+            );
+            $query->bind_param(
+                'ds',
+                ...[ $userId, $text ]
+            );
+        } else {
+            // Have current text
+            $query = $this->db->prepare(
+                'UPDATE text SET text_text = ? WHERE text_user = ?'
+            );
+            $query->bind_param(
+                'sd',
+                ...[ $text, $userId ]
+            );
+        }
+        $query->execute();
     }
 }

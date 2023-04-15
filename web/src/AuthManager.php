@@ -30,6 +30,9 @@ class AuthManager {
     }
 
     public static function logOut(): void {
+        // For future uses within the current 
+        unset( $_SESSION[self::SESSION_KEY] );
+        // for future page views
         session_destroy();
     }
 }

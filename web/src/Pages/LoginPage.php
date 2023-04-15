@@ -11,32 +11,45 @@ use EasyReader\AuthManager;
 use EasyReader\Database;
 
 class LoginPage extends SitePage {
+    private string $loginError;
+
     public function __construct() {
         parent::__construct( 'Login' );
         $this->addStyleSheet( 'login-styles.css' );
+        $this->loginError = '';
     }
 
     protected function getBodyElements(): array {
         return [
-            ...$this->getMainDisplay(),
+            HTMLBuilder::element(
+                'div',
+                [
+                    HTMLBuilder::element( 'h1', 'Login' ),
+                    ...$this->getMainDisplay(),
+                ],
+                [ 'class' => 'center-table' ]
+            ),
         ];
+    }
+
+    protected function onBeforePageDisplay(): void {
+        if ( ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) === 'POST'
+            && !AuthManager::isLoggedIn()
+        ) {
+            $this->loginError = $this->trySubmit();
+        }
     }
 
     private function getMainDisplay(): array {
         $isPost = ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) === 'POST';
         if ( !$isPost ) {
+            if ( AuthManager::isLoggedIn() ) {
+                return [ $this->getAlreadyLoggedInError() ];
+            }
             return [ $this->getForm() ];
         }
-        $submitError = $this->trySubmit();
-        if ( $submitError !== '' ) {
-            return [
-                HTMLBuilder::element(
-                    'p',
-                    $submitError,
-                    [ 'class' => 'er-error ' ]
-                ),
-                $this->getForm(),
-            ];
+        if ( $this->loginError !== '' ) {
+            return [ $this->getForm() ];
         }
         return [
             HTMLBuilder::element(
@@ -67,6 +80,14 @@ class LoginPage extends SitePage {
         return '';
     }
 
+    private function getAlreadyLoggedInError(): HTMLElement {
+        return HTMLBuilder::element(
+            'div',
+            'ERROR: Already logged in to an account!',
+            [ 'class' => 'oc-error' ]
+        );
+    }
+
     private function getForm(): HTMLElement {
         return HTMLBuilder::element(
             'form',
@@ -75,17 +96,12 @@ class LoginPage extends SitePage {
                 'id' => 'oc-login',
                 'action' => './login.php',
                 'method' => 'POST',
-                'class' => 'center-table',
             ]
         );
     }
 
     private function getFormFields(): array {
-        return [
-            HTMLBuilder::element(
-                'h1',
-                'Login'
-            ),
+        $fields = [
             HTMLBuilder::element(
                 'label',
                 'Email:',
@@ -109,12 +125,23 @@ class LoginPage extends SitePage {
                     'id' => 'er-password',
                     'name' => 'er-password' ]
             ),
-            HTMLBuilder::element('div', '', ['class' => 'space']),
-            HTMLBuilder::element(
-                'button',
-                'Login',
-                [ 'type' => 'submit', 'id' => 'er-login-submit' ]
-            ),
         ];
+        if ( $this->loginError != '' ) {
+            $fields[] = HTMLBuilder::element('div', [], ['class' => 'half-space']);
+            $fields[] = HTMLBuilder::element(
+                'p',
+                $this->loginError,
+                [ 'class' => 'er-error ' ]
+            );
+            $fields[] = HTMLBuilder::element('div', [], ['class' => 'half-space']);
+        } else {
+            $fields[] = HTMLBuilder::element('div', [], ['class' => 'space']);
+        }
+        $fields[] = HTMLBuilder::element(
+            'button',
+            'Login',
+            [ 'type' => 'submit', 'id' => 'er-login-submit' ]
+        );
+        return $fields;
     }
 }

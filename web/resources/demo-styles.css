@@ -5,14 +5,35 @@ h1{
     color: #20295b;
 }
 
+#er-text-save{
+    background-color: #8995d6;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: 575;
+    border-radius: 25px;
+    font-size: 18pt;
+}
 
-demoButton {
-    background-color: #525ea2;
+#er-search {
+    background-color: #8995d6;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: 575;
+    border-radius: 25px;
+    font-size: 18pt;
+    
+}
+.main-table {
+    background-color: #8995d6;
+    color: white;
+    width: 50%;
+    border: 3px solid #20295b;
+    padding: 10px;
+    text-align: center;
+    margin-left: 225px;
+}
+textarea {
+    resize: vertical;
+    min-height: 300px;
+    width: 100%;
     
 }
 
-textarea {
-    resize: vertical;
-    min-height: 100px;
-    width: 100%;
-}

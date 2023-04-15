@@ -12,40 +12,67 @@ use EasyReader\Database;
 
 class DemoPage extends SitePage {
     public function __construct() {
-        parent::__construct( 'Demo' );
+        $this->isReader = true;
+        parent::__construct( 'Reader' );
         $this->addScript( 'term-lookup.js' );
         $this->addStyleSheet( 'demo-styles.css' );
     }
 
+    private const DEFAULT_TEXT = 'Select any word in this text to define it.';
+
+    protected function onBeforePageDisplay(): void {
+        if ( ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) !== 'POST'
+            || !AuthManager::isLoggedIn()
+            || !isset( $_POST['er-text'] )
+        ) {
+            return;
+        }
+        $db = new Database;
+        $db->setCurrentUserText(
+            AuthManager::getLoggedInUserId(),
+            $_POST['er-text']
+        );
+        // Redirect to same page so that refresh won't trigger warnings about
+        // post resubmission
+        header('Location: ./index.php');
+    }
+
     private function getStartingText(): string {
         if ( !AuthManager::isLoggedIn() ) {
-            return 'Lorem ipsum is often used as placeholder text.';
+            return self::DEFAULT_TEXT;
         }
         $db = new Database;
         $text = $db->getCurrentUserText( AuthManager::getLoggedInUserId() );
         if ( $text === null ) {
-            return 'Lorem ipsum is often used as placeholder text.';
+            return self::DEFAULT_TEXT;
         }
         return $text;
     }
 
     protected function getBodyElements(): array {
         return [
-            HTMLBuilder::element( 'h1', 'EasyReader' ),
+            HTMLBuilder::element( 'h1', 'Easy Reader' ),
             HTMLBuilder::element( 'div', 'Definition...', [ 'id' => 'er-def' ] ),
-            HTMLBuilder::element(
-                'textarea', $this->getStartingText(),
-                [ 'id' => 'er-text' ] ),
             HTMLBuilder::element( 'button', 'Search', [ 'id' => 'er-search' ] ),
             HTMLBuilder::element(
-                'div',
+                'form',
                 [
-                    HTMLBuilder::element('strong', 'Term history:'),
                     HTMLBuilder::element(
-                        'div',
-                        [],
-                        [ 'id' => 'er-search-history' ]
-                    )
+                        'textarea',
+                        $this->getStartingText(),
+                        [ 'id' => 'er-text', 'name' => 'er-text' ]
+                    ),
+                    AuthManager::isLoggedIn() ?
+                        HTMLBuilder::element(
+                            'button',
+                            'Save text',
+                            [ 'id' => 'er-text-save' ]
+                        ) : '',
+                ],
+                [
+                    'id' => 'er-text-form',
+                    'action' => './index.php',
+                    'method' => 'POST',
                 ]
             ),
         ];

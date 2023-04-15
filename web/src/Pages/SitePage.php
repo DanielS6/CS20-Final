@@ -8,10 +8,12 @@ namespace EasyReader\Pages;
 
 use EasyReader\HTML\{HTMLBuilder, HTMLElement, HTMLPage};
 use EasyReader\AuthManager;
+use EasyReader\Database;
 
 abstract class SitePage {
     private HTMLPage $page;
     private bool $loadedBodyContent = false;
+    protected bool $isReader = false;
 
     /** @param string $pageTitle */
     protected function __construct( string $pageTitle ) {
@@ -29,11 +31,6 @@ abstract class SitePage {
         );
         // Always add global-styles.css
         $this->addStyleSheet( 'global-styles.css' );
-
-        $sideNav = $this->getSideNav();
-        foreach ( $sideNav as $thing ) {
-            $this->page->addBodyElement( $thing );
-        }
 
         // Body from getBodyElements() is added in getOutput() so that subclass
         // constructor code after calling this parent constructor can take
@@ -63,10 +60,22 @@ abstract class SitePage {
         );
     }
 
+    // Some pages (Login and Logout) need to be able to do stuff session-related
+    // *before* the sidebar is created, if nothing is needed just leave empty
+    protected function onBeforePageDisplay(): void {
+        // No-op by default
+    }
+
     public function getOutput(): string {
         // Don't load multiple times
         if ( !$this->loadedBodyContent ) {
+            $this->onBeforePageDisplay();
             $this->loadedBodyContent = true;
+
+            $sideNav = $this->getSideNav();
+            foreach ( $sideNav as $thing ) {
+                $this->page->addBodyElement( $thing );
+            }
             $this->page->addBodyElement(
                 HTMLBuilder::element(
                     'div',
@@ -82,47 +91,114 @@ abstract class SitePage {
         return [
             HTMLBuilder::element(
                 'div',
-                $this->buildNavProfile(),
+                [
+                    $this->buildUpperSideNav(),
+                    $this->buildPrevSearches(),
+                    $this->buildLowerSideNav()
+                ],
                 [ 'class' => 'side-nav' ]
             ),
-            HTMLBuilder::element('div', $this->buildPrevSearches(), []),
-            HTMLBuilder::element('div', $this->buildSideNavControls(), [])];
-            
+        ];    
     }
     
+    private function buildUpperSideNav(): HTMLElement {
+        return
+        HTMLBuilder::element(
+            'div',
+            HTMLBuilder::link(
+                './index.php',
+                HTMLBuilder::image('logo.svg', [ 'class' => 'er-logo'])
+            ),
+            ['id' => 'upper-side-nav']
+        );
+    }
+    
+
+    
+
     private function buildPrevSearches(): HTMLElement {
-        return HTMLBuilder::element( 'label', '' );
-    }
-
-    private function buildSideNavControls(): HTMLElement {  
-        return HTMLBuilder::element( 'button', [], ['value' => 'Clear Search', 'class' => 'er-navButton' ]);
-    }
-
-    private function buildNavProfile(): HTMLElement {
-        if ( AuthManager::isLoggedIn() ) {
-            $loginOutLink = HTMLBuilder::link(
-                './logout.php',
-                'Log out',
-                [ 'class' => 'er-navButton' ]
-            );
-        } else {
-            $loginOutLink = HTMLBuilder::link(
-                './login.php',
-                'Log in',
-                [ 'class' => 'er-navButton' ]
+        if ( !AuthManager::isLoggedIn() || !$this->isReader ) {
+            // Empty placeholder
+            return HTMLBuilder::element(
+                'div',
+                [],
+                ['id' => 'er-search-history-div']
             );
         }
         return HTMLBuilder::element(
             'div',
             [
-                HTMLBuilder::link(
-                    './index.php',
-                    HTMLBuilder::image('logo.svg', [ 'class' => 'er-logo'])
+                HTMLBuilder::element(
+                    'strong',
+                    'Term history'
                 ),
-                HTMLBuilder::element('p', ['ex@gmail.com',
-                    HTMLBuilder::image('profile.png', [ 'id' => 'er-imgProfile'])
-                ], ['id' => 'er-profLine']),
-              $loginOutLink
+                HTMLBuilder::element(
+                    'div',
+                    [],
+                    AuthManager::isLoggedIn() ? [ 'id' => 'er-search-history' ] : []   
+                ),
+            ],
+            ['id' => 'er-search-history-div']
+        );
+    }
+
+    private function buildLowerSideNav(): HTMLElement {
+        if ( AuthManager::isLoggedIn() ) {
+            $loginOutLink = HTMLBuilder::link(
+                './logout.php',
+                HTMLBuilder::element(
+                    'button',
+                    'Log out',
+                    [ 'class' => 'er-navButton' ]
+                ),
+                []
+            );
+        } else {
+            $loginOutLink = HTMLBuilder::link(
+                './login.php',
+                HTMLBuilder::element(
+                    'button',
+                    'Log in',
+                    [ 'class' => 'er-navButton' ]
+                ),
+                []
+            );
+        }
+
+        if ( AuthManager::isLoggedIn() ) {
+            $db = new Database;
+            $email = $db->getAccountEmail( AuthManager::getLoggedInUserId() );
+        } else {
+            $email = 'Not logged in!';
+        }
+        $profile = HTMLBuilder::element(
+            'p',
+            [
+                $email,
+                HTMLBuilder::image( 'profile.png', [ 'id' => 'er-imgProfile'] ),
+            ],
+            ['id' => 'er-profLine']
+        );
+        $clearHistory = HTMLBuilder::element(
+            'button',
+            'Clear History',
+            [ 'class' => 'er-navButton', 'id' => 'er-clear-history' ]
+        );
+        return HTMLBuilder::element(
+            'div',
+            [
+                $profile,
+                AuthManager::isLoggedIn() && $this->isReader ? $clearHistory : '',
+            HTMLBuilder::link(
+                './about.php',
+                HTMLBuilder::element(
+                    'button',
+                    'About',
+                    [ 'class' => 'er-navButton' ]
+                ),
+                [ 'class' => 'er-navButton' ]
+            ),
+            $loginOutLink
             ],
             [ 'id' => 'er-profile']
         );

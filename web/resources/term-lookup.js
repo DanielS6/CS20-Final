@@ -1,11 +1,11 @@
 document.addEventListener( 'DOMContentLoaded', function () {
 	// Code that runs after the DOM loads
-	console.log( 'Page content is loaded' );
 
     const defDisplay = document.getElementById('er-def');
     const textInput = document.getElementById('er-text');
     const searchBtn = document.getElementById('er-search');
     const priorTermsBar = document.getElementById('er-search-history');
+    const clearHistoryBtn = document.getElementById('er-clear-history');
 
     const getCurrentSelection = () => {
         const selectedText = textInput.value.substring(
@@ -20,7 +20,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
     const setDisplayKnown = (response) => {
         response.json().then(
             json => {
-                console.log(json);
                 defDisplay.innerHTML = json.extract_html;
             }
         );
@@ -57,7 +56,12 @@ document.addEventListener( 'DOMContentLoaded', function () {
     };
 
     const addTermToHistory = (term) => {
+        if ( priorTermsBar === null ) {
+            // User is not logged in, not keeping the history
+            return;
+        }
         const wrapper = document.createElement('div');
+        wrapper.classList.add('er-history-term');
         const link = document.createElement('a');
         link.innerText = term;
         link.addEventListener(
@@ -77,4 +81,23 @@ document.addEventListener( 'DOMContentLoaded', function () {
             }
         }
     );
+
+    if ( clearHistoryBtn !== null && priorTermsBar !== null ) {
+        clearHistoryBtn.addEventListener(
+            'click',
+            () => priorTermsBar.replaceChildren()
+        );
+    }
+
+    // Feature: when text is highlighted CTRL+Enter also triggers search
+    textInput.addEventListener( 'keydown', function ( e ) {
+        if ( e.key !== 'Enter' || e.ctrlKey !== true ) {
+            return;
+        }
+        const searchTerm = getCurrentSelection();
+        if (searchTerm !== false) {
+            maybeDoLookup(searchTerm);
+            e.preventDefault();
+        }
+    } );
 } );
