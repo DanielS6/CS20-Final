@@ -61,7 +61,7 @@ $includeFiles = [
     'HTML/HTMLBuilder.php', 'HTML/HTMLElement.php', 'HTML/HTMLPage.php',
     'Database.php', 'AuthManager.php',
     'Pages/SitePage.php',
-    'Pages/DemoPage.php', 'Pages/LoginPage.php', 'Pages/SignUpPage.php',
+    'Pages/ReaderPage.php', 'Pages/LoginPage.php', 'Pages/SignUpPage.php',
     'Pages/LogoutPage.php', 'Pages/AboutPage.php',
 ];
 foreach ( $includeFiles as $file ) {

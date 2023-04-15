@@ -10,12 +10,12 @@ use EasyReader\HTML\{HTMLBuilder, HTMLElement, HTMLPage};
 use EasyReader\AuthManager;
 use EasyReader\Database;
 
-class DemoPage extends SitePage {
+class ReaderPage extends SitePage {
     public function __construct() {
         $this->isReader = true;
         parent::__construct( 'Reader' );
         $this->addScript( 'term-lookup.js' );
-        $this->addStyleSheet( 'demo-styles.css' );
+        $this->addStyleSheet( 'reader-styles.css' );
     }
 
     private const DEFAULT_TEXT = 'Select any word in this text to define it.';
