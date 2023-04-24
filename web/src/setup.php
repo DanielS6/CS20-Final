@@ -62,7 +62,7 @@ $includeFiles = [
     'Database.php', 'AuthManager.php',
     'Pages/SitePage.php',
     'Pages/ReaderPage.php', 'Pages/LoginPage.php', 'Pages/SignUpPage.php',
-    'Pages/LogoutPage.php', 'Pages/AboutPage.php',
+    'Pages/LogoutPage.php', 'Pages/AboutPage.php', 'Pages/SubscriptionPage.php'
 ];
 foreach ( $includeFiles as $file ) {
     require_once $file;

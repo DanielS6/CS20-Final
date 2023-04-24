@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Gill Sans", Arial, Helvetica, sans-serif;
+}
 html {
     /* Avoid different widths on longer pages */
     overflow-y: scroll;
@@ -7,13 +12,16 @@ body {
     padding-bottom: 150px;
     font-size: 16pt;
 }
+::selection {
+    background: #b1b8e3;
+}
 a {
     text-decoration: none;
 }
 .body-content-wrapper {
     margin-left: 275px;
     margin-right: auto;
-    width: 80%;
+    width: 79%;
 }
 
 h1 {
@@ -39,6 +47,8 @@ h1 {
     flex-direction: column;
     justify-content: space-between;
 
+    font-size: 15pt;
+
 }
 .side-nav a{
     color: white;
@@ -52,12 +62,14 @@ h1 {
 
 #er-search-history-div{
     height: 350px;
-    overflow-y: auto;
+    padding-top: 10px;
+    /* overflow-y: auto; */
+    overflow-y: scroll;
 }
 
 #er-search-history-div::-webkit-scrollbar {
     width: 8px; /* Set width of scrollbar */
-  }
+}
   
   /* Track */
 #er-search-history-div::-webkit-scrollbar-track {
@@ -68,16 +80,29 @@ h1 {
     background: #6271c8; /* Set color of scrollbar handle */
   }
 
-.er-history-term a {
-    padding:5px;
-    color:white;
-    /* border: 1px solid #8995d6; */
-    border-radius: 5px;  
-    margin-bottom:10px;
-    cursor:pointer;
+#er-term-history-label {
+    display: block;
+    text-align: center;
 }
+
+.er-history-term a {
+    display: inline-block;
+
+    width: 85%;
+
+    padding: 5px 10px;
+    margin-top: 10px;
+    
+    border: 1px solid #6271c8;
+    border-radius: 5px;  
+
+    cursor: pointer;
+
+    color: white;
+}
+
 .er-history-term a:hover{
-    background-color: #8995d6;
+    background-color: #6271c8;
 }
 
 #er-profile {
@@ -85,10 +110,18 @@ h1 {
     margin-bottom: 50px; 
 }
 
+#er-profLine {
+    padding: 15px;
+
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
 #er-imgProfile {
     width: 35px;
     border-radius: 50%;
-    vertical-align: bottom;
+    margin-left: 10px;
 }
 
 .er-navButton {
@@ -100,20 +133,27 @@ h1 {
     border: 0 none;
     border-radius: 5px;
 
-    font-family: 'Times New Roman';
-    font-size:20px;
-    cursor:pointer;
+    font-size: 13pt;
+    cursor: pointer;
 }
 .er-navButton:hover {
     background-color: #6171c9;
 }
 .er-logo {
-    max-width: 100px;
-
+    max-width: 175px;
     display: block;
-    margin: 15px auto 0 auto;
-    /* margin-left: auto;
-    margin-right: auto; */
+    margin: 15px auto;
+}
+
+#er-signupButton {
+    font-size: 11pt;
+    float: right;
+    margin-right: 7%;
+    text-decoration: underline;
+}
+
+#er-signupButton:hover {
+    color: #b1b8e3;
 }
 
 .oc-error {

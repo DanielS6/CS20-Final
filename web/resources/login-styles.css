@@ -1,6 +1,6 @@
-* {
+/* * {
     font-family: "Gill Sans", sans-serif;
-}
+} */
 
 .center-table h1 {
         margin-top: 10px;
@@ -12,7 +12,8 @@
     background-color: #8995d6;
     color: white;
     width: 50%;
-    border: 3px solid #20295b;
+    /* border: 3px solid #20295b; */
+    border: 3px solid transparent;
     padding: 10px;
     text-align: center;
     margin-left: 225px;
@@ -28,10 +29,11 @@
         display: inline-block;
         text-align: right;
         width: 150px;
-        padding-bottom: 10px;
+        padding-bottom: 20px;
 }
 
 .center-table input {
+        padding: 5px 10px;
         height: 20px;
         width: 250px;
 }
@@ -41,11 +43,13 @@
     color: #6271c8;
     border: none;
     padding: 10px 100px;
+    margin-bottom: 20px;
     font-size: 30px;
     text-decoration: none;
     display: inline-block;
     border-radius: 25px;
     transition: 0.2s;
+    cursor: pointer;
 }
 
 

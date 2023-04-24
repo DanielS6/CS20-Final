@@ -1,13 +1,18 @@
 
-h1{
+h1 {
     margin-top: 12px;
-    font-family: "Gill Sans", sans-serif;
+    /* font-family: "Gill Sans", sans-serif; */
     color: #20295b;
 }
-
-#er-text-save{
+#er-def {
+    /* height: 20%; */
+    height: 200px;
+    width: 97%;
+    overflow-y: auto;
+}
+#er-text-save {
     background-color: #8995d6;
-    font-family: "Gill Sans", sans-serif;
+    /* font-family: "Gill Sans", sans-serif; */
     font-weight: 575;
     border-radius: 25px;
     font-size: 18pt;
@@ -15,7 +20,7 @@ h1{
 
 #er-search {
     background-color: #8995d6;
-    font-family: "Gill Sans", sans-serif;
+    /* font-family: "Gill Sans", sans-serif; */
     font-weight: 575;
     border-radius: 25px;
     font-size: 18pt;
@@ -30,10 +35,13 @@ h1{
     text-align: center;
     margin-left: 225px;
 }
+
 textarea {
     resize: vertical;
-    min-height: 300px;
-    width: 100%;
-    
+    min-height: 350px;
+    width: 97%;
+    padding: 15px;
+    font-size: 16pt;  
+    border-radius: 5px;
 }
 

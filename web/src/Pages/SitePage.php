@@ -107,7 +107,7 @@ abstract class SitePage {
             'div',
             HTMLBuilder::link(
                 './index.php',
-                HTMLBuilder::image('logo.svg', [ 'class' => 'er-logo'])
+                HTMLBuilder::image('logo.png', [ 'class' => 'er-logo'])
             ),
             ['id' => 'upper-side-nav']
         );
@@ -129,8 +129,9 @@ abstract class SitePage {
             'div',
             [
                 HTMLBuilder::element(
-                    'strong',
-                    'Term history'
+                    'label',
+                    'Term history',
+                    ['id' => 'er-term-history-label']
                 ),
                 HTMLBuilder::element(
                     'div',
@@ -154,15 +155,26 @@ abstract class SitePage {
                 []
             );
         } else {
-            $loginOutLink = HTMLBuilder::link(
-                './login.php',
-                HTMLBuilder::element(
-                    'button',
-                    'Log in',
-                    [ 'class' => 'er-navButton' ]
+            $loginOutLink = 
+            HTMLBuilder::element(
+                'div',
+                [
+                HTMLBuilder::link(
+                    './login.php',
+                    HTMLBuilder::element(
+                        'button',
+                        'Log in',
+                        [ 'class' => 'er-navButton' ]
+                    ),
+                    []
                 ),
-                []
-            );
+                HTMLBuilder::element(
+                    'a',
+                    'sign up',
+                    [ 'id' => 'er-signupButton', 'href' => './subscription.php' ]
+                )]
+                );
+            
         }
 
         if ( AuthManager::isLoggedIn() ) {
@@ -175,7 +187,7 @@ abstract class SitePage {
             'p',
             [
                 $email,
-                HTMLBuilder::image( 'profile.png', [ 'id' => 'er-imgProfile'] ),
+                HTMLBuilder::image( 'profile2.png', [ 'id' => 'er-imgProfile'] ),
             ],
             ['id' => 'er-profLine']
         );
@@ -189,16 +201,16 @@ abstract class SitePage {
             [
                 $profile,
                 AuthManager::isLoggedIn() && $this->isReader ? $clearHistory : '',
-            HTMLBuilder::link(
-                './about.php',
-                HTMLBuilder::element(
-                    'button',
-                    'About',
+                HTMLBuilder::link(
+                    './about.php',
+                    HTMLBuilder::element(
+                        'button',
+                        'About',
+                        [ 'class' => 'er-navButton' ]
+                    ),
                     [ 'class' => 'er-navButton' ]
                 ),
-                [ 'class' => 'er-navButton' ]
-            ),
-            $loginOutLink
+                $loginOutLink
             ],
             [ 'id' => 'er-profile']
         );
