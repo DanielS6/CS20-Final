@@ -1,18 +1,16 @@
-*:not(.side-nav) {
-    box-sizing: border-box;
-    font-family: 'Gill Sans', sans-serif;
-    color: #20295b;
-}
-
 body {
-    background-color: #f3f4fb;
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
+}
+h1 {
+    margin-top: 0px;
 }
 
+.center-table,
+.center-table * {
+    box-sizing: border-box;
+}
 .center-table {
     background-color: #b1b8e3;
     border-radius: 10px;
@@ -20,15 +18,9 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 350px;
     border: 3px solid transparent;
-    margin-left: 300px;
-    position: absolute;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%); 
-}
-
-h2 {
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    margin-bottom: 30px;
 }
 
 input[type="email"],
@@ -41,7 +33,7 @@ input[type="password"] {
     outline: none;
 }
 
-.button1 {
+.er-form-button {
     position: relative;
     width: 100%;
     padding-top: 10px;
@@ -55,8 +47,7 @@ input[type="password"] {
     color: #000;
     transition: color 0.3s;
 }
-
-.button2 {
+.er-form-redirect {
     position: relative;
     width: 50%;
     padding-top: 10px;
@@ -70,32 +61,3 @@ input[type="password"] {
     color: #000;
     transition: color 0.3s;
 }
-
-.body-content-wrapper {
-    text-align: center;
-}
-
-
-
-/* .button1:hover {
-    color: #f3f4fb;
-}
-
-.button1::before {
-    content: '';
-    position: absolute;
-    padding-top: 10px;
-    text-align: center;
-    margin: auto;
-    left: -100%;
-    top: 0;
-    width: 100%;
-    height: 100%; 
-    background-color: #3949a3;
-    border-radius: 50px;
-    transition: left 0.3s;
-}
-
-.button1:hover::before {
-    left: 0;
-} */

@@ -1,8 +1,4 @@
 
-h1 {
-    margin: 20px;
-    color: #20295b;
-}
 #er-def {
     height: 200px;
     width: 97%;
@@ -14,8 +10,8 @@ h1 {
 }
 
 #er-search, #er-text-save {
-    padding: 5px 5px;
-    width: 100px;
+    padding: 5px 25px;
+    width: fit-content;
     margin-bottom: 0;
 }
 .main-table {

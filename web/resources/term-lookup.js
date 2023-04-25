@@ -62,13 +62,13 @@ document.addEventListener( 'DOMContentLoaded', function () {
         }
         const wrapper = document.createElement('div');
         wrapper.classList.add('er-history-term');
-        const link = document.createElement('a');
-        link.innerText = term;
-        link.addEventListener(
+        const termLink = document.createElement('span');
+        termLink.innerText = term;
+        termLink.addEventListener(
             'click',
             () => maybeDoLookup(term)
         );
-        wrapper.append(link);
+        wrapper.append(termLink);
         priorTermsBar.prepend(wrapper);
     };
 

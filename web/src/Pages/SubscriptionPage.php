@@ -127,7 +127,8 @@ class SubscriptionPage extends SitePage {
             HTMLBuilder::element('label', 'Account email', ['for' => 'pay-email']),
             HTMLBuilder::input(
                 'email',
-                [ 'id' => 'pay-email', 'value' => $emailPrefill ]
+                [ 'id' => 'pay-email', 'value' => $emailPrefill,
+                    'readonly' => true ]
             ),
             HTMLBuilder::element('br'),
             HTMLBuilder::element(
@@ -272,7 +273,7 @@ class SubscriptionPage extends SitePage {
         return HTMLBuilder::element(
             'div',
             'ERROR: Not logged in to an account!',
-            [ 'class' => 'oc-error' ]
+            [ 'class' => 'er-error' ]
         );
     }
 

@@ -12,6 +12,7 @@ use EasyReader\AuthManager;
 class LogoutPage extends SitePage {
     public function __construct() {
         parent::__construct( 'Logout' );
+        $this->addStyleSheet( 'form-styles.css' );
     }
 
     protected function onBeforePageDisplay(): void {
@@ -20,7 +21,17 @@ class LogoutPage extends SitePage {
 
     protected function getBodyElements(): array {
         return [
-            HTMLBuilder::element( 'p', 'Log out successful' ),
+            HTMLBuilder::element(
+                'div',
+                [
+                    HTMLBuilder::element( 'h1', 'Log out' ),
+                    HTMLBuilder::element(
+                        'p',
+                        'Log out successful'
+                    ),
+                ],
+                [ 'class' => 'center-table' ]
+            ),
         ];
     }
 

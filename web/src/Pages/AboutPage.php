@@ -19,15 +19,14 @@ class AboutPage extends SitePage {
         return HTMLBuilder::element(
             'div',
             [
-                HTMLBuilder::image('daniel.jpg', [ 'id' => 'er-daniel']),
+                HTMLBuilder::image('daniel.jpg'),
                 HTMLBuilder::element('p',
             <<<END
-            Emily - From the Class of ‘24, Daniel is a Computer Science major who has seniority in our group ,and like Emily, also uses said seniority 
-            to claim Social Security checks illegally.
+            Daniel - From the Class of ‘24, Daniel is a Computer Science major in the Arts and Sciences School. Daniel, who is group leader, 
             END
                 ),
             ],
-            ['class' => 'er-daniel']
+            ['class' => 'er-about-bio']
         );
     }
 
@@ -35,45 +34,45 @@ class AboutPage extends SitePage {
         return HTMLBuilder::element(
             'div',
             [
-                HTMLBuilder::image('emily.jpg', [ 'id' => 'er-emily']),
+                HTMLBuilder::image('emily.jpg'),
                 HTMLBuilder::element('p',
                 <<<END
-            Emily - From the Class of ‘23, Emily is a Computer Science major who has seniority in our group  and also uses said seniority 
-            to claim Social Security checks illegally.
+            Emily - From the Class of ‘23, Emily is a Computer Science major in the Arts and Sciences School. From Washington,
+            her first concert
             END
                 ),
             ],
-            ['class' => 'er-emily']
+            ['class' => 'er-about-bio']
         );
     }
     private function getJacob(): HTMLElement {
         return HTMLBuilder::element(
             'div',
             [
-                HTMLBuilder::image('Jacob.jpg', [ 'id' => 'er-jacob']),
+                HTMLBuilder::image('Jacob.jpg'),
                 HTMLBuilder::element('p',
                 <<<END
-            From the Class of '25, Jacob is a Computer Science major whose claim to fame is running a pyramid scheme type organization
-            that preys on the vulnerable youth.
+            From the Tufts Class of '25, Jacob is a Computer Science major and math minor from Lynn, MA who has 
+            goals of being a software engineer. Fun Fact: Jacob fell ~40 times when he first went snowboarding.
             END
                 ),
             ],
-            ['class' => 'er-jacob']
+            ['class' => 'er-about-bio']
         );
     }
     private function getJoey(): HTMLElement {
         return HTMLBuilder::element(
             'div',
             [
-                HTMLBuilder::image('joey.png', [ 'id' => 'er-joey']),
+                HTMLBuilder::image('joey.png'),
                 HTMLBuilder::element('p',
                 <<<END
-            From the Class of '25, Joey is a Computer Science major, known by many to funnel millions into the pockets
-            of local politicians to keep his exploitive businesses thriving.
+            From the Tufts Class of '25, Joey is a Computer Science major, from the Arts and Sciences School, Joey has ran 
+            the Boston Marathon and his middle is Robert.
             END
                 ),
             ],
-            ['class' => 'er-joey']
+            ['class' => 'er-about-bio']
         );
     }
 
@@ -94,11 +93,12 @@ class AboutPage extends SitePage {
                 <<<END
                 
                 With a subscription, you can save all of your previous text to be remembered across all your devices.
-                Additionally, you will have access to an exclusive portal to submit bug reports and feature requests - for
-                users without a subscription this service is provided on an AS-IS BASIS with no guarantees of future reliability.
+                Additionally, you will have access to an exclusive portal to submit bug reports, no ads, priority access to new features
+                and feature requests - for users without a subscription this service is provided on an AS-IS BASIS with no guarantees of 
+                future reliability. Subscriptions start at $14.95/month(+tax). 
                 END                
             ),
-            HTMLBuilder::element('h2', 'Meet the Team'),
+            HTMLBuilder::element('h2', 'Meet the Team!'),
             $this->getDaniel(),
             $this->getEmily(),
             $this->getJacob(),

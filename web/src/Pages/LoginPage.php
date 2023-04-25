@@ -15,7 +15,7 @@ class LoginPage extends SitePage {
 
     public function __construct() {
         parent::__construct( 'Login' );
-        $this->addStyleSheet( 'login-styles.css' );
+        $this->addStyleSheet( 'form-styles.css' );
         $this->loginError = '';
     }
 
@@ -24,7 +24,7 @@ class LoginPage extends SitePage {
             HTMLBuilder::element(
                 'div',
                 [
-                    HTMLBuilder::element( 'h2', 'Login' ),
+                    HTMLBuilder::element( 'h1', 'Login' ),
                     ...$this->getMainDisplay(),
                 ],
                 [ 'class' => 'center-table' ]
@@ -64,7 +64,7 @@ class LoginPage extends SitePage {
                 HTMLBuilder::element(
                     'button',
                     'Go Home',
-                    [ 'type' => 'submit', 'id' => 'er-login-submit', 'class' => 'button2' ]
+                    [ 'class' => 'er-form-redirect' ]
                 )
             ),
         ];
@@ -95,7 +95,7 @@ class LoginPage extends SitePage {
         return HTMLBuilder::element(
             'div',
             'ERROR: Already logged in to an account!',
-            [ 'class' => 'oc-error' ]
+            [ 'class' => 'er-error' ]
         );
     }
 
@@ -104,7 +104,7 @@ class LoginPage extends SitePage {
             'form',
             $this->getFormFields(),
             [
-                'id' => 'oc-login',
+                'id' => 'er-login',
                 'action' => './login.php',
                 'method' => 'POST',
             ]
@@ -113,6 +113,7 @@ class LoginPage extends SitePage {
 
     private function getFormFields(): array {
         $fields = [
+            HTMLBuilder::element( 'br' ),
             HTMLBuilder::element(
                 'label',
                 'Email:',
@@ -150,7 +151,7 @@ class LoginPage extends SitePage {
         $fields[] = HTMLBuilder::element(
             'button',
             'Login',
-            [ 'type' => 'submit', 'id' => 'er-login-submit', 'class' => 'button1' ]
+            [ 'type' => 'submit', 'id' => 'er-login-submit', 'class' => 'er-form-button' ]
         );
         return $fields;
     }

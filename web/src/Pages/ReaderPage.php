@@ -61,7 +61,6 @@ class ReaderPage extends SitePage {
         return [
             HTMLBuilder::element( 'h1', 'Easy Reader' ),
             HTMLBuilder::element( 'div', 'Definition...', [ 'id' => 'er-def' ] ),
-            // HTMLBuilder::element( 'button', 'Search', [ 'type' => 'button', 'id' => 'er-search', 'class' => 'er-navButton' ] ),
             HTMLBuilder::element(
                 'form',
                 [
@@ -70,7 +69,7 @@ class ReaderPage extends SitePage {
                     $isPremium ?
                         HTMLBuilder::element(
                             'button',
-                            'Save text',
+                            'Save text (and reload)',
                             [ 'id' => 'er-text-save', 'class' => 'er-navButton'  ]
                         ) : '',
                     HTMLBuilder::element(

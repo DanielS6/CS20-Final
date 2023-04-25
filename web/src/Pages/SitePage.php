@@ -194,7 +194,12 @@ abstract class SitePage {
         $profile = HTMLBuilder::element(
             'p',
             [
-                $email,
+                HTMLBuilder::element(
+                    'span',
+                    $email,
+                    // Long emails are truncated, include the full as a tooltip
+                    ['id' => 'er-profEmail', 'title' => $email]
+                ),
                 HTMLBuilder::image( 'profile2.png', [ 'id' => 'er-imgProfile'] ),
             ],
             ['id' => 'er-profLine']
@@ -215,8 +220,7 @@ abstract class SitePage {
                         'button',
                         'About',
                         [ 'class' => 'er-navButton' ]
-                    ),
-                    [ 'class' => 'er-navButton' ]
+                    )
                 ),
                 ...$loginOutLinks
             ],

@@ -8,8 +8,7 @@ html {
     overflow-y: scroll;
 }
 body {
-    /* Allow scrolling down a bit, increase default font size */
-    padding-bottom: 150px;
+    /* Increase default font size */
     font-size: 16pt;
 }
 ::selection {
@@ -27,6 +26,8 @@ a {
 h1 {
     /* Center headings */
     text-align: center;
+    margin: 20px;
+    color: #20295b;
 }
 
 .side-nav {
@@ -64,28 +65,16 @@ h1 {
     height: 350px;
     padding-top: 10px;
     /* overflow-y: auto; */
-    overflow-y: scroll;
+    /* auto -> only show up when needed, so not on non-premium pages */
+    overflow-y: auto;
 }
-
-#er-search-history-div::-webkit-scrollbar {
-    width: 8px; /* Set width of scrollbar */
-}
-  
-  /* Track */
-#er-search-history-div::-webkit-scrollbar-track {
-    background: #20295b; /* Set color of scrollbar track */
-}
-/* Handle */
-#er-search-history-div::-webkit-scrollbar-thumb {
-    background: #6271c8; /* Set color of scrollbar handle */
-  }
 
 #er-term-history-label {
     display: block;
     text-align: center;
 }
 
-.er-history-term a {
+.er-history-term span {
     display: inline-block;
 
     width: 85%;
@@ -116,6 +105,14 @@ h1 {
     display: flex;
     justify-content: right;
     align-items: center;
+}
+
+#er-profEmail {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    font-size: 13pt;
 }
 
 #er-imgProfile {
@@ -156,6 +153,6 @@ h1 {
     color: #b1b8e3;
 }
 
-.oc-error {
+.er-error {
     color: red;
 }

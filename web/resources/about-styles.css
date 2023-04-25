@@ -1,14 +1,15 @@
-#er-emily,
-#er-jacob,
-#er-daniel,
-#er-joey{
-    border-radius: 50%;
-    width:200px;
-    height:200px;
-    font-family
+body {
+    /* Allow scrolling down a bit */
+    padding-bottom: 150px;
 }
 
-.er-general_wrapper{
-    justify-content: space-between;
-    display:flex;
+/* Add some spacing between elements */
+.body-content-wrapper > * {
+    padding: 15px;
+}
+
+.er-about-bio img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
 }

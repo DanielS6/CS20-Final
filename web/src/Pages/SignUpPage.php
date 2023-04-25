@@ -15,7 +15,7 @@ class SignUpPage extends SitePage {
 
     public function __construct() {
         parent::__construct( 'SignUp' );
-        $this->addStyleSheet( 'signup-styles.css' );
+        $this->addStyleSheet( 'form-styles.css' );
         $this->signUpError = '';
     }
 
@@ -57,6 +57,17 @@ class SignUpPage extends SitePage {
                 'p',
                 'Account successfully created!'
             ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::link(
+                './subscription.php',
+                HTMLBuilder::element(
+                    'button',
+                    'Get Premium',
+                    [ 'class' => 'er-form-redirect' ]
+                )
+            ),
         ];
     }
 
@@ -85,7 +96,7 @@ class SignUpPage extends SitePage {
         return HTMLBuilder::element(
             'div',
             'ERROR: Already logged in to an account!',
-            [ 'class' => 'oc-error' ]
+            [ 'class' => 'er-error' ]
         );
     }
 
@@ -94,7 +105,7 @@ class SignUpPage extends SitePage {
             'form',
             $this->getFormFields(),
             [
-                'id' => 'oc-create-account',
+                'id' => 'er-create-account',
                 'action' => './signup.php',
                 'method' => 'POST',
             ]
@@ -103,7 +114,6 @@ class SignUpPage extends SitePage {
 
     private function getFormFields(): array {
         $fields = [
-            HTMLBuilder::element( 'br' ),
             HTMLBuilder::element( 'br' ),
             HTMLBuilder::element(
                 'label',
@@ -149,7 +159,8 @@ class SignUpPage extends SitePage {
         $fields[] = HTMLBuilder::element(
             'button',
             'Create account',
-            [ 'type' => 'submit', 'id' => 'er-create-account-submit', 'class' => 'button1' ]
+            [ 'type' => 'submit',
+                'id' => 'er-create-account-submit', 'class' => 'er-form-button' ]
         );
         return $fields;
     }
