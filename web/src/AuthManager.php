@@ -19,6 +19,14 @@ class AuthManager {
     public static function isLoggedIn(): bool {
         return isset( $_SESSION[self::SESSION_KEY] );
     }
+    public static function isPremium(): bool {
+        if ( !self::isLoggedIn() ) {
+            return false;
+        }
+        $db = new Database;
+        $userId = self::getLoggedInUserId();
+        return $db->isUserPremium( $userId );
+    }
 
     public static function getLoggedInUserId(): int {
         if ( !self::isLoggedIn() ) {

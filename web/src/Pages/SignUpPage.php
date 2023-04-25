@@ -103,42 +103,37 @@ class SignUpPage extends SitePage {
 
     private function getFormFields(): array {
         $fields = [
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::element( 'br' ),
             HTMLBuilder::element(
                 'label',
                 'Email:',
-                [ 'for' => 'er-email' ]
+                [ 'for' => 'er-email']
             ),
-            HTMLBuilder::element(
-                'input',
-                [],
-                [ 'type' => 'email', 'id' => 'er-email', 'name' => 'er-email' ]
-            ),
+            HTMLBuilder::input(
+                'email',
+                [ 'id' => 'er-email', 'placeholder' => 'email' ] ),
+            HTMLBuilder::element( 'br' ),
             HTMLBuilder::element( 'br' ),
             HTMLBuilder::element(
                 'label',
                 'Password:',
                 [ 'for' => 'er-password' ]
             ),
-            HTMLBuilder::element(
-                'input',
-                [],
-                [ 'type' => 'password',
-                    'id' => 'er-password',
-                    'name' => 'er-password' ]
-            ),
+            HTMLBuilder::input(
+                'password',
+                [ 'id' => 'er-password', 'placeholder' => 'password' ] ),
+            HTMLBuilder::element( 'br' ),
             HTMLBuilder::element( 'br' ),
             HTMLBuilder::element(
                 'label',
                 'Confirm Password:',
                 [ 'for' => 'er-password-confirm' ]
             ),
-            HTMLBuilder::element(
-                'input',
-                [],
-                [ 'type' => 'password',
-                    'id' => 'er-password-confirm',
-                    'name' => 'er-password-confirm' ]
-            ),
+            HTMLBuilder::input( 'password',
+                [ 'id' => 'er-password-confirm', 'placeholder' => 'confirm password'  ] ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::element( 'br' ),
         ];
         if ( $this->signUpError != '' ) {
             $fields[] = HTMLBuilder::element('div', [], ['class' => 'half-space']);
@@ -154,7 +149,7 @@ class SignUpPage extends SitePage {
         $fields[] = HTMLBuilder::element(
             'button',
             'Create account',
-            [ 'type' => 'submit', 'id' => 'er-create-account-submit' ]
+            [ 'type' => 'submit', 'id' => 'er-create-account-submit', 'class' => 'button1' ]
         );
         return $fields;
     }

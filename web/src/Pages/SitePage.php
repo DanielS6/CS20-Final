@@ -117,7 +117,15 @@ abstract class SitePage {
     
 
     private function buildPrevSearches(): HTMLElement {
-        if ( !AuthManager::isLoggedIn() || !$this->isReader ) {
+        $isPremium = false;
+        if ( AuthManager::isLoggedIn() ) {
+            $db = new Database;
+            $userId = AuthManager::getLoggedInUserId();
+            if ( $db->isUserPremium( $userId ) ) {
+                $isPremium = true;
+            }
+        }
+        if ( !$isPremium || !$this->isReader ) {
             // Empty placeholder
             return HTMLBuilder::element(
                 'div',
@@ -145,7 +153,7 @@ abstract class SitePage {
 
     private function buildLowerSideNav(): HTMLElement {
         if ( AuthManager::isLoggedIn() ) {
-            $loginOutLink = HTMLBuilder::link(
+            $loginOutLinks = [ HTMLBuilder::link(
                 './logout.php',
                 HTMLBuilder::element(
                     'button',
@@ -153,12 +161,9 @@ abstract class SitePage {
                     [ 'class' => 'er-navButton' ]
                 ),
                 []
-            );
+            ) ];
         } else {
-            $loginOutLink = 
-            HTMLBuilder::element(
-                'div',
-                [
+            $loginOutLinks = [
                 HTMLBuilder::link(
                     './login.php',
                     HTMLBuilder::element(
@@ -168,13 +173,16 @@ abstract class SitePage {
                     ),
                     []
                 ),
-                HTMLBuilder::element(
-                    'a',
-                    'sign up',
-                    [ 'id' => 'er-signupButton', 'href' => './subscription.php' ]
-                )]
-                );
-            
+                HTMLBuilder::link(
+                    './signup.php',
+                    HTMLBuilder::element(
+                        'button',
+                        'Sign up',
+                        [ 'class' => 'er-navButton' ]
+                    ),
+                    []
+                ),
+            ];
         }
 
         if ( AuthManager::isLoggedIn() ) {
@@ -200,7 +208,7 @@ abstract class SitePage {
             'div',
             [
                 $profile,
-                AuthManager::isLoggedIn() && $this->isReader ? $clearHistory : '',
+                AuthManager::isPremium() && $this->isReader ? $clearHistory : '',
                 HTMLBuilder::link(
                     './about.php',
                     HTMLBuilder::element(
@@ -210,7 +218,7 @@ abstract class SitePage {
                     ),
                     [ 'class' => 'er-navButton' ]
                 ),
-                $loginOutLink
+                ...$loginOutLinks
             ],
             [ 'id' => 'er-profile']
         );

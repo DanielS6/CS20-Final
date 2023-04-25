@@ -196,4 +196,38 @@ class HTMLBuilder {
 		$attribs['href'] = $target;
 		return self::element('a', $contents, $attribs);
 	}
+
+	/**
+	 * Shortcut to create a <input> with the given type and settings
+	 *
+	 * Extra attribute: 'int-length' means set the minimum length and maximum
+	 * length to that value, and have the pattern be that many digits
+	 * 
+	 * If `name` is not set it will be the same as `id`
+	 * 
+	 * All fields are required!
+	 *
+	 * @param string $type
+	 * @param array $attributes
+	 * @return HTMLElement
+	 */
+	public static function input(
+		string $type,
+		array $attribs = []
+	): HTMLElement {
+		$attribs['type'] = $type;
+		if ( isset( $attribs['int-length'] ) ) {
+			$len = $attribs['int-length'];
+			unset( $attribs['int-length']);
+			$attribs['min-length'] = $len;
+			$attribs['max-length'] = $len;
+			$attribs['pattern'] = '\d{' . $len . '}';
+		}
+		// Everything is required!!!
+		$attribs['required'] = true;
+		if ( !isset( $attribs['name'] ) && isset( $attribs['id'] ) ) {
+			$attribs['name'] = $attribs['id'];
+		}
+		return self::element('input', [], $attribs);
+	}
 }

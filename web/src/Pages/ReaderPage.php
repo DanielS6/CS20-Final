@@ -38,7 +38,7 @@ class ReaderPage extends SitePage {
     }
 
     private function getStartingText(): string {
-        if ( !AuthManager::isLoggedIn() ) {
+        if ( !AuthManager::isPremium() ) {
             return self::DEFAULT_TEXT;
         }
         $db = new Database;
@@ -50,24 +50,34 @@ class ReaderPage extends SitePage {
     }
 
     protected function getBodyElements(): array {
+        $isPremium = false;
+        if ( AuthManager::isLoggedIn() ) {
+            if ( AuthManager::isPremium() ) {
+                $isPremium = true;
+            } else {
+                $this->addScript( 'account-upgrade.js' );
+            }
+        }
         return [
             HTMLBuilder::element( 'h1', 'Easy Reader' ),
             HTMLBuilder::element( 'div', 'Definition...', [ 'id' => 'er-def' ] ),
-            HTMLBuilder::element( 'button', 'Search', [ 'id' => 'er-search' ] ),
+            // HTMLBuilder::element( 'button', 'Search', [ 'type' => 'button', 'id' => 'er-search', 'class' => 'er-navButton' ] ),
             HTMLBuilder::element(
                 'form',
                 [
+                    HTMLBuilder::element( 'button', 'Search', [ 'type' => 'button', 'id' => 'er-search', 'class' => 'er-navButton' ] ),
+                    
+                    $isPremium ?
+                        HTMLBuilder::element(
+                            'button',
+                            'Save text',
+                            [ 'id' => 'er-text-save', 'class' => 'er-navButton'  ]
+                        ) : '',
                     HTMLBuilder::element(
                         'textarea',
                         $this->getStartingText(),
                         [ 'id' => 'er-text', 'name' => 'er-text' ]
                     ),
-                    AuthManager::isLoggedIn() ?
-                        HTMLBuilder::element(
-                            'button',
-                            'Save text',
-                            [ 'id' => 'er-text-save' ]
-                        ) : '',
                 ],
                 [
                     'id' => 'er-text-form',

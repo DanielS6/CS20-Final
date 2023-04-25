@@ -14,14 +14,15 @@ class SubscriptionPage extends SitePage {
     private string $paymentError;
 
     public function __construct() {
-        parent::__construct( 'SignUp' );
-        $this->addStyleSheet( 'subscription-styles.css' );
+        parent::__construct('Subscription');
+        $this->addStyleSheet('subscription-styles.css');
+        $this->addScript( 'subscription-validation.js' );
         $this->paymentError = '';
     }
 
     protected function onBeforePageDisplay(): void {
         if ( ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) === 'POST'
-            && !AuthManager::isLoggedIn()
+            && AuthManager::isLoggedIn()
         ) {
             $this->paymentError = $this->trySubmit();
         }
@@ -47,7 +48,6 @@ class SubscriptionPage extends SitePage {
                 'div',
                 [
                     HTMLBuilder::element('div', [...$this->getMainDisplay()], ['class' => 'card', 'id' => 'card1']),
-                    // HTMLBuilder::element('div', [...$this->buildCard1()], ['class' => 'card', 'id' => 'card1']),
                     HTMLBuilder::element('div', [...$this->buildCard2()], ['class' => 'card', 'id' => 'card2'])
                 ],
                 [ 'class' => 'row' ]
@@ -73,38 +73,37 @@ class SubscriptionPage extends SitePage {
     }
 
     private function buildCard2(): array {
+        $features = [
+            'No ads',
+            'Save previous searches during session',
+            'Save previous documents',
+            'Priority access to new features',
+        ];
+        $tickIcon = HTMLBuilder::image('tick-icon.png', [ 'id' => 'tick-icon']);
+        $features = array_map(
+            function ( $feature ) use ( $tickIcon ) {
+                return HTMLBuilder::element(
+                    'p',
+                    [ $tickIcon, HTMLBuilder::element( 'label', $feature ) ]
+                );
+            },
+            $features
+        );
         return [
             HTMLBuilder::element(
-                'div', [
+                'div',
+                [
                     HTMLBuilder::element('h3', 'Your subscription includes:'),
-
-                    HTMLBuilder::element('p', [
-                        HTMLBuilder::image('tick-icon.png', [ 'id' => 'tick-icon']),
-                        HTMLBuilder::element('label', 'No ads'),
-                    ],[]),
-
-                    HTMLBuilder::element('p', [
-                        HTMLBuilder::image('tick-icon.png', [ 'id' => 'tick-icon']),
-                        HTMLBuilder::element('label', 'Save previous searches'),
-                    ],[]),
-
-                    HTMLBuilder::element('p', [
-                        HTMLBuilder::image('tick-icon.png', [ 'id' => 'tick-icon']),
-                        HTMLBuilder::element('label', 'Save previous documents'),
-                    ],[]),
-
-                    HTMLBuilder::element('p', [
-                        HTMLBuilder::image('tick-icon.png', [ 'id' => 'tick-icon']),
-                        HTMLBuilder::element('label', 'Priority access to new features'),
-                    ],[]),
-
-                ], ['class' => 'sub-details']
+                    ...$features,
+                ],
+                ['class' => 'sub-details']
             ),
             HTMLBuilder::element(
-                'div', [
+                'div',
+                [
                     HTMLBuilder::element('strong', 'Billing details:'),
                     HTMLBuilder::element('p', 'By clicking Submit Payment you are agreeing to our Easy Reader Premium Plan Terms, Easy Reader Terms of Use, Privacy Policy and for Easy Reader to charge your payment method for $14.95 (+ tax if applicable) for your monthly subscription to Easy Reader Premium Plan Subscription. Easy Reader will automatically charge your payment method monthly until you elect to cancel by selecting cancel membership in My Account.', ['id' => 'bill-details']),
-                ], []
+                ],
             )
         ];
     }
@@ -120,19 +119,26 @@ class SubscriptionPage extends SitePage {
             ]
         );
     }
-
     private function getFormFields(): array {
+        // Only used when already logged in
+        $db = new Database;
+        $emailPrefill = $db->getAccountEmail( AuthManager::getLoggedInUserId() );
         $fields = [
+            HTMLBuilder::element('label', 'Account email', ['for' => 'pay-email']),
+            HTMLBuilder::input(
+                'email',
+                [ 'id' => 'pay-email', 'value' => $emailPrefill ]
+            ),
+            HTMLBuilder::element('br'),
             HTMLBuilder::element(
                 'label',
                 'Name on card',
                 [ 'for' => 'pay-name' ]
             ),
             HTMLBuilder::element('br'),
-            HTMLBuilder::element(
-                'input',
-                [],
-                ['type' => 'text', 'id' => 'pay-name', 'name' => 'pay-name' ]
+            HTMLBuilder::input(
+                'text',
+                ['id' => 'pay-name' ]
             ),
             HTMLBuilder::element('br'),
             HTMLBuilder::element(
@@ -141,35 +147,11 @@ class SubscriptionPage extends SitePage {
                 [ 'for' => 'pay-cardNum' ]
             ),
             HTMLBuilder::element('br'),
-            HTMLBuilder::element(
-                'input',
-                [],
-                ['type' => 'text', 'id' => 'pay-cardNum', 'name' => 'pay-cardNum' ]
+            HTMLBuilder::input(
+                'text',
+                [ 'id' => 'pay-cardNum', 'int-length' => 16]
             ),
-            HTMLBuilder::element('br'),
-            HTMLBuilder::element(
-                'label',
-                'Exp. date',
-                [ 'for' => 'pay-exp' ]
-            ),
-            HTMLBuilder::element('br'),
-            HTMLBuilder::element(
-                'input',
-                [],
-                ['type' => 'text', 'id' => 'pay-exp', 'name' => 'pay-exp' ]
-            ),
-            HTMLBuilder::element('br'),
-            HTMLBuilder::element(
-                'label',
-                'CVV',
-                [ 'for' => 'pay-cvv' ]
-            ),
-            HTMLBuilder::element('br'),
-            HTMLBuilder::element(
-                'input',
-                [],
-                ['type' => 'text', 'id' => 'pay-cvv', 'name' => 'pay-cvv' ]
-            ),
+            $this->buildPayLine(),
             HTMLBuilder::element('br'),
             HTMLBuilder::element(
                 'label',
@@ -177,10 +159,9 @@ class SubscriptionPage extends SitePage {
                 [ 'for' => 'pay-zip' ]
             ),
             HTMLBuilder::element('br'),
-            HTMLBuilder::element(
-                'input',
-                [],
-                ['type' => 'text', 'id' => 'pay-zip', 'name' => 'pay-zip' ]
+            HTMLBuilder::input(
+                'text',
+                [ 'id' => 'pay-zip', 'int-length' => 5 ]
             ),
         ];
         if ( $this->paymentError != '' ) {
@@ -189,7 +170,8 @@ class SubscriptionPage extends SitePage {
                 'p',
                 [
                     HTMLBuilder::element('label', '*', ['id' => 'er-star']),
-                    $this->paymentError],
+                    $this->paymentError
+                ],
                 [ 'class' => 'error' ]
             );
             $fields[] = HTMLBuilder::element('div', [], ['class' => 'half-space']);
@@ -204,7 +186,50 @@ class SubscriptionPage extends SitePage {
         return $fields;
     }
 
+    private function buildPayLine():HTMLElement {
+        return HTMLBuilder::element(
+            'div',
+            [
+                HTMLBuilder::element(
+                    'div',
+                    [HTMLBuilder::element(
+                        'label',
+                        'Exp. date',
+                        [ 'for' => 'pay-exp' ]
+                    ),
+                    HTMLBuilder::element('br'),
+                    HTMLBuilder::input( 'month', ['id' => 'pay-exp'] )
+                ],
+                    ['class' => 'pay-cell']
+                ),
+                HTMLBuilder::element(
+                    'div',
+                    [HTMLBuilder::element(
+                        'label',
+                        'CVV',
+                        [ 'for' => 'pay-cvv' ]
+                    ),
+                    HTMLBuilder::element('br'),
+                    HTMLBuilder::input(
+                        'text',
+                        ['id' => 'pay-cvv', 'int-length' => 3]
+                    )], ['class' => 'pay-cell'])
+            ],
+            ['id' => 'pay-line']
+        );
+    }
+
     private function trySubmit(): string {
+        $db = new Database;
+        $accountEmail = $_POST['pay-email'];
+        if ( $accountEmail === '' ) {
+            return 'Missing account email';
+        }
+        $accountInfo = $db->getAccount( $accountEmail );
+        if ( $accountInfo === null ) {
+            return 'Email not associated with an account';
+        }
+    
         $name = $_POST['pay-name'];
         $cardNum = $_POST['pay-cardNum'];
         $expDate = $_POST['pay-exp'];
@@ -226,33 +251,27 @@ class SubscriptionPage extends SitePage {
         }  else if ($zip === '') {
             return 'Missing Zip/Postal code';
         }
+        $db->markUserPremium( $accountEmail );
         return '';
     }
 
     private function getMainDisplay(): array {
+        if ( !AuthManager::isLoggedIn() ) {
+            return [ $this->getNotLoggedInError() ];
+        }
         $isPost = ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) === 'POST';
-        if ( !$isPost ) {
-            if ( AuthManager::isLoggedIn() ) {
-                return [ $this->getAlreadyLoggedInError() ];
-            }
-            return [ ...$this->buildCard1() ];
+        if ( $isPost && $this->paymentError === '') {
+            return [
+                HTMLBuilder::element( 'p', 'Subscription successful' ),
+            ];
         }
-        if ($this->paymentError !== '') {
-            return [ ...$this->buildCard1()];
-        } else {
-            header('Location: ./signup.php');
-                exit();
-        }
-        if ( $this->paymentError === '' ) {
-            header('Location: ./signup.php');
-            exit();
-        }
+        return [ ...$this->buildCard1() ];
     }
 
-    private function getAlreadyLoggedInError(): HTMLElement {
+    private function getNotLoggedInError(): HTMLElement {
         return HTMLBuilder::element(
             'div',
-            'ERROR: Already logged in to an account!',
+            'ERROR: Not logged in to an account!',
             [ 'class' => 'oc-error' ]
         );
     }

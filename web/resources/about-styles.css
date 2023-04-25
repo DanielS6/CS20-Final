@@ -1,0 +1,14 @@
+#er-emily,
+#er-jacob,
+#er-daniel,
+#er-joey{
+    border-radius: 50%;
+    width:200px;
+    height:200px;
+    font-family
+}
+
+.er-general_wrapper{
+    justify-content: space-between;
+    display:flex;
+}

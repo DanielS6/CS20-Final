@@ -68,12 +68,20 @@ class Database {
     }
 
     public function accountExists( string $email ): bool {
+        $email = strtolower( $email );
         return $this->getAccount( $email ) !== null;
+    }
+    public function accountIsPremium( string $email ): bool {
+        $email = strtolower( $email );
+        $account = $this->getAccount( $email );
+        return ( $account !== null && (bool)(int)$account->user_is_premium );
     }
 
     public function getAccount( string $email ): ?stdClass {
+        $email = strtolower( $email );
         $query = $this->db->prepare(
-            'SELECT user_id, user_pass_hash FROM users WHERE user_email = ?'
+            'SELECT user_id, user_pass_hash, user_is_premium ' .
+            'FROM users WHERE user_email = ?'
         );
         $query->bind_param(
             's',
@@ -87,27 +95,43 @@ class Database {
         }
         return (object)($rows[0]);
     }
-    public function getAccountEmail( int $userId ): string {
+    public function getAccountById( int $userId ): array {
         $query = $this->db->prepare(
-            'SELECT user_email FROM users WHERE user_id = ?'
+            'SELECT user_email, user_is_premium FROM users WHERE user_id = ?'
         );
         $query->bind_param( 'd', ...[ $userId ] );
         $query->execute();
         $result = $query->get_result();
         $rows = $result->fetch_all( MYSQLI_ASSOC );
-        return (string)($rows[0]['user_email']);
+        return $rows[0];
+    }
+    public function getAccountEmail( int $userId ): string {
+        return (string)($this->getAccountById( $userId )['user_email']);
     }
 
     public function createAccount( string $email, string $passHash ): string {
+        $email = strtolower( $email );
         $query = $this->db->prepare(
-            'INSERT INTO users (user_email, user_pass_hash) VALUES (?, ?)'
+            'INSERT INTO users (user_email, user_pass_hash, user_is_premium) ' .
+            'VALUES (?, ?, ?)'
         );
         $query->bind_param(
-            'ss',
-            ...[ $email, $passHash ]
+            'ssd',
+            ...[ $email, $passHash, 0 ]
         );
         $query->execute();
         return (string)( $this->db->insert_id );
+    }
+    public function markUserPremium( string $email ): void {
+        $email = strtolower( $email );
+        $query = $this->db->prepare(
+            'UPDATE users SET user_is_premium = ? WHERE user_email = ?'
+        );
+        $query->bind_param( 'ds', ...[ 1, $email ] );
+        $query->execute();
+    }
+    public function isUserPremium( int $userId ): bool {
+        return (bool)(int)($this->getAccountById( $userId )['user_is_premium']);
     }
 
     public function getCurrentUserText( int $userId ): ?string {

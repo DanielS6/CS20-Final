@@ -60,8 +60,13 @@ strong {
     border: 1px solid #8190e6;
 }
 
+#pay-line {
+    display: flex;
+    justify-content: space-between;
+}
 
-input[type=text] {
+input[type=text],
+input[type=email] {
     font-size: 15pt;
     margin-bottom: 20px;
     margin-top: 5px;
@@ -71,11 +76,28 @@ input[type=text] {
     width: 98%;
     color: #3949a3;
   }
-input[type=text]:focus {
+input[type=text]:focus,
+input[type=email]:focus {
     transition: 900ms;
     outline: none;
     border-bottom: 2px solid #26316d;
   }
+
+#pay-exp {
+    padding: 5px;
+    margin: 10px 0;
+    font-size: 11pt;
+}
+#pay-exp:hover {
+    outline: none;
+}
+
+.pay-cell {
+    margin: 5px;
+}
+#pay-cvv {
+    margin-top: 14px;
+}
 
 #pay-submitButton {
     display: block;

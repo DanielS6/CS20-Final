@@ -24,7 +24,7 @@ class LoginPage extends SitePage {
             HTMLBuilder::element(
                 'div',
                 [
-                    HTMLBuilder::element( 'h1', 'Login' ),
+                    HTMLBuilder::element( 'h2', 'Login' ),
                     ...$this->getMainDisplay(),
                 ],
                 [ 'class' => 'center-table' ]
@@ -55,6 +55,17 @@ class LoginPage extends SitePage {
             HTMLBuilder::element(
                 'p',
                 'Account login successful!'
+            ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::link(
+                './index.php',
+                HTMLBuilder::element(
+                    'button',
+                    'Go Home',
+                    [ 'type' => 'submit', 'id' => 'er-login-submit', 'class' => 'button2' ]
+                )
             ),
         ];
     }
@@ -107,24 +118,23 @@ class LoginPage extends SitePage {
                 'Email:',
                 [ 'for' => 'er-email' ]
             ),
-            HTMLBuilder::element(
-                'input',
-                [],
-                [ 'type' => 'email', 'id' => 'er-email', 'name' => 'er-email' ]
+            HTMLBuilder::input(
+                'email',
+                [ 'id' => 'er-email', 'placeholder' => 'email' ]
             ),
+            HTMLBuilder::element( 'br' ),
             HTMLBuilder::element( 'br' ),
             HTMLBuilder::element(
                 'label',
                 'Password:',
                 [ 'for' => 'er-password' ]
             ),
-            HTMLBuilder::element(
-                'input',
-                [],
-                [ 'type' => 'password',
-                    'id' => 'er-password',
-                    'name' => 'er-password' ]
+            HTMLBuilder::input(
+                'password',
+                [ 'id' => 'er-password', 'placeholder' => 'password' ]
             ),
+            HTMLBuilder::element( 'br' ),
+            HTMLBuilder::element( 'br' ),
         ];
         if ( $this->loginError != '' ) {
             $fields[] = HTMLBuilder::element('div', [], ['class' => 'half-space']);
@@ -140,7 +150,7 @@ class LoginPage extends SitePage {
         $fields[] = HTMLBuilder::element(
             'button',
             'Login',
-            [ 'type' => 'submit', 'id' => 'er-login-submit' ]
+            [ 'type' => 'submit', 'id' => 'er-login-submit', 'class' => 'button1' ]
         );
         return $fields;
     }
