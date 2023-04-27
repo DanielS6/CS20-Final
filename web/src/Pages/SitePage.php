@@ -98,9 +98,9 @@ abstract class SitePage {
                 ],
                 [ 'class' => 'side-nav' ]
             ),
-        ];    
+        ];
     }
-    
+
     private function buildUpperSideNav(): HTMLElement {
         return
         HTMLBuilder::element(
@@ -112,9 +112,6 @@ abstract class SitePage {
             ['id' => 'upper-side-nav']
         );
     }
-    
-
-    
 
     private function buildPrevSearches(): HTMLElement {
         $isPremium = false;
@@ -144,7 +141,7 @@ abstract class SitePage {
                 HTMLBuilder::element(
                     'div',
                     [],
-                    AuthManager::isLoggedIn() ? [ 'id' => 'er-search-history' ] : []   
+                    AuthManager::isLoggedIn() ? [ 'id' => 'er-search-history' ] : []
                 ),
             ],
             ['id' => 'er-search-history-div']

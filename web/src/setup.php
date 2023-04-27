@@ -4,7 +4,7 @@
  * Set up everything that we need, including loading *all source files that
  * are not entry points* because we are not using composer, and setting up
  * error reporting and sessions.
- * 
+ *
  * This file should be the first thing included in every entry point.
  */
 
@@ -29,7 +29,7 @@ if ( ( $_SERVER['REQUEST_METHOD'] ?? 'GET' ) === 'POST' ) {
 
 /**
  * DEPENDENCIES
- * 
+ *
  * EasyReader depends on the `mysqli` PHP extension (to interact with the
  * database) and on PHP 7.4 or later (to allow some of the PHP features used,
  * would prefer to require 8.0+ for `readonly`, etc. but siteground only has

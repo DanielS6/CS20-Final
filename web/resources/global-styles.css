@@ -31,64 +31,57 @@ h1 {
 }
 
 
-#er-search-history-div{
+#er-search-history-div {
     height: 350px;
     padding-top: 10px;
-    /* overflow-y: auto; */
     /* auto -> only show up when needed, so not on non-premium pages */
     overflow-y: auto;
 }
 
 #er-term-history-label {
-        display: block;
-        text-align: center;
+    display: block;
+    text-align: center;
 }
 
 .er-history-term span {
-        display: inline-block;
-        
-        width: 85%;
-        
-        padding: 5px 10px;
-        margin-top: 10px;
-        
-        border: 1px solid #6271c8;
-        border-radius: 5px;  
-        
-        cursor: pointer;
-        
-        color: white;
+    display: inline-block;
+    width: 85%;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border: 1px solid #6271c8;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
 }
 
-.er-history-term a:hover{
-        background-color: #6271c8;
+.er-history-term a:hover {
+    background-color: #6271c8;
 }
 
 #er-profile {
-        border-top: 1px solid #8995d6;
-        margin-bottom: 50px; 
+    border-top: 1px solid #8995d6;
+    margin-bottom: 50px;
 }
 
 #er-profLine {
-        padding: 15px;
-        
-        display: flex;
-        justify-content: right;
-        align-items: center;
+    padding: 15px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 #er-profEmail {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 250px;
-        font-size: 13pt;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+    font-size: 13pt;
 }
 
 #er-imgProfile {
-        width: 35px;
-        border-radius: 50%;
-        margin-left: 10px;
+    width: 35px;
+    border-radius: 50%;
+    margin-left: 10px;
 }
 
 .side-nav {
@@ -97,23 +90,17 @@ h1 {
     position: fixed;
     top: 0;
     left: 0;
-
     background-color: #26316d;
     box-shadow: 10px 0 15px -7px rgb(172, 172, 172);
-       
     padding: 15px;
-
     color: white;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     font-size: 15pt;
-
 }
 
-.side-nav a{
+.side-nav a {
     color: white;
 }
 
@@ -123,14 +110,13 @@ h1 {
 }
 
 .er-navButton {
-        padding: 10px 0;
+    padding: 10px 0;
     width: 100%;
     margin-bottom: 10px;
     background-color: #2d397f;
     color: white;
     border: 0 none;
     border-radius: 5px;
-
     font-size: 13pt;
     cursor: pointer;
 }

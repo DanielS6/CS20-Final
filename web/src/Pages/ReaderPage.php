@@ -65,7 +65,7 @@ class ReaderPage extends SitePage {
                 'form',
                 [
                     HTMLBuilder::element( 'button', 'Search', [ 'type' => 'button', 'id' => 'er-search', 'class' => 'er-navButton' ] ),
-                    
+
                     $isPremium ?
                         HTMLBuilder::element(
                             'button',

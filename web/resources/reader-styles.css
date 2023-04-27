@@ -28,7 +28,7 @@ textarea {
     min-height: 325px;
     width: 97%;
     padding: 15px;
-    font-size: 16pt;  
+    font-size: 16pt;
     border-radius: 5px;
     outline: none;
     margin: 15px 0;
@@ -70,7 +70,6 @@ textarea {
 }
 .er-premium-popup-wrapper hr {
     margin-bottom: 0px;
-    /* Replace the orange bar that we have for other <hr> elements */
     border-top: 2px solid black;
     width: 100%;
     margin-left: 0px;

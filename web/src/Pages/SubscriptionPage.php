@@ -230,7 +230,7 @@ class SubscriptionPage extends SitePage {
         if ( $accountInfo === null ) {
             return 'Email not associated with an account';
         }
-    
+
         $name = $_POST['pay-name'];
         $cardNum = $_POST['pay-cardNum'];
         $expDate = $_POST['pay-exp'];
