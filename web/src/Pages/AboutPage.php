@@ -22,7 +22,8 @@ class AboutPage extends SitePage {
                 HTMLBuilder::image('daniel.jpg'),
                 HTMLBuilder::element('p',
             <<<END
-            Daniel - From the Class of ‘24, Daniel is a Computer Science major in the Arts and Sciences School. Daniel, who is group leader,
+            Daniel - From the Class of '24, Daniel is a Computer Science major in the Arts and Sciences School.
+            Daniel first learned to code by teaching himself.
             END
                 ),
             ],
@@ -37,8 +38,8 @@ class AboutPage extends SitePage {
                 HTMLBuilder::image('emily.jpg'),
                 HTMLBuilder::element('p',
                 <<<END
-            Emily - From the Class of ‘23, Emily is a Computer Science major in the Arts and Sciences School. From Washington,
-            her first concert
+            Emily - From the Class of '23, Emily is a Computer Science major in the Arts and Sciences School. From Washington,
+            her first concert was an ABBA cover band.
             END
                 ),
             ],

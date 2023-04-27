@@ -1,7 +1,7 @@
 body {
     /* Allow scrolling down a bit */
     padding-bottom: 150px;
-    font-size: calc(10px + 2vw);
+    font-size: calc(10px + 1.5vw);
 }
 
 /* Add some spacing between elements */
