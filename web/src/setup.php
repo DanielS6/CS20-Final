@@ -88,11 +88,10 @@ if ( getenv( 'EASY_READER_DOCKER' ) !== false ) {
     define( 'EASY_READER_DB_PASS', 'root' );
     define( 'EASY_READER_DB_NAME', 'easy_reader_db' );
 } else {
-    // TODO once added to site ground
     define( 'EASY_READER_DB_HOST', 'localhost' );
-    define( 'EASY_READER_DB_USER', '' );
-    define( 'EASY_READER_DB_PASS', '' );
-    define( 'EASY_READER_DB_NAME', '' );
+    define( 'EASY_READER_DB_USER', 'unignpuowzpvd' );
+    define( 'EASY_READER_DB_PASS', 'cxs07gnnpm3t' );
+    define( 'EASY_READER_DB_NAME', 'dbpxwdnfwmi2n3' );
 }
 
 // Database setup

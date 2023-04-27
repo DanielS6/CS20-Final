@@ -42,7 +42,7 @@ abstract class SitePage {
             HTMLBuilder::element(
                 'script',
                 [],
-                [ 'src' => "/resources/{$fileName}" ]
+                [ 'src' => "./resources/{$fileName}" ]
             )
         );
     }
@@ -54,7 +54,7 @@ abstract class SitePage {
                 [
                     'rel' => 'stylesheet',
                     'type' => 'text/css',
-                    'href' => "/resources/{$fileName}",
+                    'href' => "./resources/{$fileName}",
                 ]
             )
         );
