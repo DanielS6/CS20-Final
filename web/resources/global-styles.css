@@ -18,9 +18,9 @@ a {
     text-decoration: none;
 }
 .body-content-wrapper {
-    margin-left: 275px;
+    margin-left: 30%;
     margin-right: auto;
-    width: 79%;
+    width: 60%;
 }
 
 h1 {
@@ -30,9 +30,70 @@ h1 {
     color: #20295b;
 }
 
+
+#er-search-history-div{
+    height: 350px;
+    padding-top: 10px;
+    /* overflow-y: auto; */
+    /* auto -> only show up when needed, so not on non-premium pages */
+    overflow-y: auto;
+}
+
+#er-term-history-label {
+        display: block;
+        text-align: center;
+}
+
+.er-history-term span {
+        display: inline-block;
+        
+        width: 85%;
+        
+        padding: 5px 10px;
+        margin-top: 10px;
+        
+        border: 1px solid #6271c8;
+        border-radius: 5px;  
+        
+        cursor: pointer;
+        
+        color: white;
+}
+
+.er-history-term a:hover{
+        background-color: #6271c8;
+}
+
+#er-profile {
+        border-top: 1px solid #8995d6;
+        margin-bottom: 50px; 
+}
+
+#er-profLine {
+        padding: 15px;
+        
+        display: flex;
+        justify-content: right;
+        align-items: center;
+}
+
+#er-profEmail {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 250px;
+        font-size: 13pt;
+}
+
+#er-imgProfile {
+        width: 35px;
+        border-radius: 50%;
+        margin-left: 10px;
+}
+
 .side-nav {
     height: 100%;
-    width: 225px;
+    width: 18%;
     position: fixed;
     top: 0;
     left: 0;
@@ -51,6 +112,7 @@ h1 {
     font-size: 15pt;
 
 }
+
 .side-nav a{
     color: white;
 }
@@ -58,72 +120,11 @@ h1 {
 #upper-side-nav {
     padding-bottom: 10px;
     border-bottom: 1px solid #8995d6;
-
-}
-
-#er-search-history-div{
-    height: 350px;
-    padding-top: 10px;
-    /* overflow-y: auto; */
-    /* auto -> only show up when needed, so not on non-premium pages */
-    overflow-y: auto;
-}
-
-#er-term-history-label {
-    display: block;
-    text-align: center;
-}
-
-.er-history-term span {
-    display: inline-block;
-
-    width: 85%;
-
-    padding: 5px 10px;
-    margin-top: 10px;
-    
-    border: 1px solid #6271c8;
-    border-radius: 5px;  
-
-    cursor: pointer;
-
-    color: white;
-}
-
-.er-history-term a:hover{
-    background-color: #6271c8;
-}
-
-#er-profile {
-    border-top: 1px solid #8995d6;
-    margin-bottom: 50px; 
-}
-
-#er-profLine {
-    padding: 15px;
-
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-
-#er-profEmail {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 250px;
-    font-size: 13pt;
-}
-
-#er-imgProfile {
-    width: 35px;
-    border-radius: 50%;
-    margin-left: 10px;
 }
 
 .er-navButton {
-    padding: 10px 0;
-    width: 220px;
+        padding: 10px 0;
+    width: 100%;
     margin-bottom: 10px;
     background-color: #2d397f;
     color: white;
@@ -136,8 +137,9 @@ h1 {
 .er-navButton:hover {
     background-color: #6171c9;
 }
+
 .er-logo {
-    max-width: 175px;
+    max-width: 100%;
     display: block;
     margin: 15px auto;
 }

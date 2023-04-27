@@ -1,6 +1,7 @@
 body {
     /* Allow scrolling down a bit */
     padding-bottom: 150px;
+    font-size: calc(10px + 2vw);
 }
 
 /* Add some spacing between elements */
@@ -10,6 +11,7 @@ body {
 
 .er-about-bio img {
     border-radius: 50%;
-    width: 200px;
-    height: 200px;
+    width: 50%;
+    height: 50%;
 }
+
